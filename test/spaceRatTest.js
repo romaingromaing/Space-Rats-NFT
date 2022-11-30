@@ -764,6 +764,34 @@ describe('Space Rat NFT Unit Tests', () => {
                 assert.equal(finalBalance, initialBalance + 500);
             })
         })
+        describe('burn function', () => {
+            beforeEach(async () => {
+                //set asteroid to deployer for easier iridium minting so there's something to burn
+                await (await deployerIridium.setAsteroidMine(deployer.address)).wait(1);
+                //mint some iridium to burn
+                await (await deployerIridium.mint(1000000, user.address)).wait(1);
+            })
+            it('can only be called by the burner', async () => {
+                await expect(deployerIridium.burn(100)).to.be.revertedWith(
+                    'burn_notBurner'
+                );
+            })
+            it("reverts if called with greater than caller's balance", async () => {
+                await expect(userIridium.burn(10000000000)).to.be.revertedWith(
+                    'ERC20: burn amount exceeds balance'
+                );
+            })
+            it('burns the correct amount of tokens', async () => {
+                let initialBalance = (await deployerIridium.balanceOf(user.address)).toNumber();
+                let initialSupply = (await deployerIridium.totalSupply()).toNumber();
+                let burnAmount = 50000;
+                await (await userIridium.burn(burnAmount)).wait(1);
+                let finalBalance = (await deployerIridium.balanceOf(user.address)).toNumber();
+                let finalSupply = (await deployerIridium.totalSupply()).toNumber();
+                assert.equal(initialBalance, finalBalance + burnAmount);
+                assert.equal(initialSupply, finalSupply + burnAmount);
+            })
+        })
         describe('setBurner function', () => {
             it('can only be called by the owner', async () => {
                 await expect(userIridium.setBurner(user.address)).to.be.revertedWith(
