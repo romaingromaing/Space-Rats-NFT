@@ -66,8 +66,9 @@ contract SpaceRats is ERC721, ERC2981, Ownable {
         }
         uint256 tokenId = counter;
         counter++;
-        _safeMint(msg.sender, tokenId);
         publicSupply++;
+        _safeMint(msg.sender, tokenId);
+        
     }
 
     ///@notice helper function for merkle tree whitelist 

@@ -74,7 +74,6 @@ contract AsteroidMine is IERC721Receiver, Ownable {
         if(!tokenOwner){
             revert unstake_tokenNotStakedByCaller();
         }
-        spaceRats.safeTransferFrom(address(this), msg.sender, tokenId);
         _getIridiumBalance(msg.sender);
         for (uint256 i = 0; i < stakedTokens[msg.sender].length; i++)  {
             if(stakedTokens[msg.sender][i] == tokenId){
@@ -82,6 +81,7 @@ contract AsteroidMine is IERC721Receiver, Ownable {
                 delete stakedTokens[msg.sender][i];
             }
         }
+        spaceRats.safeTransferFrom(address(this), msg.sender, tokenId);
         emit tokenUnstaked(tokenId);
     }
 
