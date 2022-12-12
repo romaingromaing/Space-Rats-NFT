@@ -7,9 +7,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 error mint_notAuthorized();
 error burn_notBurner();
-error setBurner_zeroAddress();
-error setAsteroidMine_zeroAddress();
-error setGeode_zeroAddress();
 
 ///@title Iridium tokens for space rats nft ecosystem
 ///@author 0xGusMcCrae
@@ -65,9 +62,6 @@ contract Iridium is ERC20, Ownable {
     ///@notice switch the burner role to a new address
     ///@param newBurner the address of the account that will take on the burner role
     function setBurner(address newBurner) external onlyOwner {
-        if(newBurner == address(0)){
-            revert setBurner_zeroAddress();
-        }
         burner = newBurner;
         emit newBurnerSet(newBurner);
     }
@@ -75,9 +69,6 @@ contract Iridium is ERC20, Ownable {
     ///@notice set/update the address of the asteroid mines
     ///@param newMine the address of the deployed asteroid mine contract
     function setAsteroidMine(address newMine) external onlyOwner{
-        if(newMine == address(0)){
-            revert setAsteroidMine_zeroAddress();
-        }
         asteroidMine = newMine;
         emit newAsteroidMineSet(newMine);
     }
@@ -85,9 +76,6 @@ contract Iridium is ERC20, Ownable {
     ///@notice set the address of the geode NFT contract
     ///@param _geode the address of the deployed geode NFT contract
     function setGeode(address _geode) external onlyOwner{
-        if(_geode == address(0)){
-            revert setGeode_zeroAddress();
-        }
         geode = _geode;
         emit geodeSet(_geode);
     }

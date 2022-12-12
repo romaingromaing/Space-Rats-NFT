@@ -8,9 +8,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 error mint_notMinter();
 error crack_callFailure();
-error setMinter_zeroAddress();
-error setKeyAddress_zeroAddress();
-error setWhitelistAddress_zeroAddress();
 
 ///@title Geodes for space rats NFT collection
 ///@author 0xGusMcCrae
@@ -113,9 +110,6 @@ contract Geode is ERC721, Ownable {
     ///@dev this should be the asteroid mine contract
     ///@param newMinter the address of the recipient of the minter role
     function setMinter(address newMinter) external onlyOwner {
-        if(newMinter == address(0)){
-            revert setMinter_zeroAddress();
-        }
         minter = newMinter;
         emit newMinterSet(newMinter);
     }
@@ -124,9 +118,6 @@ contract Geode is ERC721, Ownable {
     ///@dev for use once spaceship NFTs are implemented
     ///@param _keyAddress the address of the spaceshit nft contract
     function setKeyAddress(address _keyAddress) external onlyOwner {
-        if(_keyAddress == address(0)){
-            revert setKeyAddress_zeroAddress();
-        }
         keyAddress = _keyAddress;
         emit keyAddressSet(_keyAddress);
     }
@@ -135,9 +126,6 @@ contract Geode is ERC721, Ownable {
     ///@dev for use once whitelist spot NFTs are implemented
     ///@param _whitelistAddress the address of the contract that handles the whitelist NFTs
     function setWhitelistAddress(address _whitelistAddress) external onlyOwner {
-        if(_whitelistAddress == address(0)) {
-            revert setWhitelistAddress_zeroAddress();
-        }
         whitelistAddress = _whitelistAddress;
         emit whitelistAddressSet(_whitelistAddress);
     }
